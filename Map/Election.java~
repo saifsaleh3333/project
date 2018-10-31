@@ -1,0 +1,118 @@
+
+
+import java.io.*;
+import java.util.Scanner;
+
+public class Election {
+  public static void main (String [] args) throws FileNotFoundException, IllegalArgumentException{
+    
+    String first = args[0];
+    String second = args [1];
+    String fileName = first + ".txt";
+    File stateFile = new File(fileName);
+    Scanner scannerName = new Scanner(stateFile);
+     
+    
+
+
+   double minLongitude = scannerName.nextDouble();
+   double minLatitude = scannerName.nextDouble();
+   scannerName.nextLine();
+   double maxLongitude = scannerName.nextDouble();
+   double maxLatitude = scannerName.nextDouble();
+   scannerName.nextLine();
+   Double q = (maxLongitude-minLongitude);
+   Double r = (maxLatitude - minLatitude);
+   if (q > r) {
+   double n = (q-r);
+   StdDraw.setXscale(minLongitude, maxLongitude);
+   StdDraw.setYscale(minLatitude - (n /2), maxLatitude + (n/2));
+ } else if (r > q) {
+   double m = (r-q);
+   StdDraw.setXscale(minLongitude - (m/2), maxLongitude + (m/2));
+   StdDraw.setYscale(minLatitude, maxLatitude);
+
+
+     }else{
+StdDraw.setXscale(minLongitude, maxLongitude);
+    StdDraw.setYscale(minLatitude, maxLatitude);
+     }
+    int places = scannerName.nextInt();
+    scannerName.nextLine();
+    scannerName.nextLine();
+    
+   
+    
+    while (scannerName.hasNextLine()) {
+      
+          
+    String state = scannerName.nextLine();
+    int repub = scannerName.nextInt();
+    int democ = scannerName.nextInt();
+    int indep = scannerName.nextInt();
+    scannerName.nextLine();
+    int corners = scannerName.nextInt();
+    scannerName.nextLine();
+      
+      
+    double[] x = new double[corners];
+    double[] y = new double[corners];
+    
+    for (int i = 0; i<x.length; i++) {
+      
+      x[i] = scannerName.nextDouble();
+      y[i] = scannerName.nextDouble();
+      scannerName.nextLine();
+    }
+      
+      if (second.equals("RedBlue")) {
+      if (repub>democ) {
+      StdDraw.setPenColor(StdDraw.RED);
+      
+    } else if (democ>repub) {
+      StdDraw.setPenColor(StdDraw.BLUE);
+      
+    } else {
+      StdDraw.setPenColor(StdDraw.GREEN);
+    }
+      StdDraw.filledPolygon(x, y);
+          
+    }
+    
+    
+  
+    if (second.equals("White")) {
+      StdDraw.setPenColor(StdDraw.BLACK);
+      StdDraw.polygon(x, y);
+      
+      
+    }
+    if (second.equals("Purple")) {
+        double repubdouble = repub + 0.0;
+        double reddouble = (repubdouble / (repub + democ + indep)) *255;
+        double bluedouble = (democ / (repubdouble + democ + indep)) *255;
+        double greendouble = (indep / (repubdouble + democ + indep)) *255;
+        int red = (int) reddouble;
+        int blue = (int) bluedouble;
+        int green = (int) greendouble;
+        StdDraw.setPenColor(red, green, blue);
+        StdDraw.filledPolygon(x, y);
+      }
+
+
+    if (scannerName.hasNextLine() == true) {
+      scannerName.nextLine();
+  }
+}
+    
+  }
+}
+
+/*
+ * Brad told me why I kept getting input mismatch exception. so i went back through and saw that i was missing a nextLine statement
+ * he also helped with the purple part because i didn't understand how I could use color values that were more than 255
+ * and he helped me with letting the scale work for any region
+ */
+
+
+
